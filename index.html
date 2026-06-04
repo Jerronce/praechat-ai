@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PraeChat AI</title>
+  <style>
+    :root{--bg:#070a12;--panel:#101827;--muted:#94a3b8;--text:#f8fafc;--brand:#7c3aed;--accent:#22c55e}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:radial-gradient(circle at top right,#4c1d9555,transparent 35%),var(--bg);color:var(--text)}.app{min-height:100vh;display:grid;grid-template-columns:280px 1fr}aside{border-right:1px solid #ffffff12;padding:24px;background:#020617aa}h1{margin:0 0 8px;font-size:28px}p{color:var(--muted);line-height:1.6}.new{width:100%;border:0;border-radius:16px;padding:14px;background:linear-gradient(135deg,var(--brand),var(--accent));color:#061014;font-weight:900;cursor:pointer}.history{margin-top:24px;display:grid;gap:10px}.history div{padding:12px;border-radius:14px;background:#ffffff0d;color:#cbd5e1;font-size:14px}main{display:flex;flex-direction:column;min-height:100vh}.top{padding:28px 32px;border-bottom:1px solid #ffffff12;display:flex;justify-content:space-between;align-items:center}.badge{padding:8px 12px;border-radius:999px;background:#ffffff0d;border:1px solid #ffffff1a;color:#c4b5fd;font-weight:800;font-size:13px}.chat{flex:1;padding:34px;max-width:900px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:18px}.msg{padding:18px 20px;border-radius:22px;max-width:78%;line-height:1.6;box-shadow:0 18px 60px #0005}.bot{align-self:flex-start;background:#ffffff0d;border:1px solid #ffffff18}.user{align-self:flex-end;background:linear-gradient(135deg,#7c3aed,#2563eb)}.chips{display:flex;flex-wrap:wrap;gap:10px}.chip{border:1px solid #ffffff1a;background:#ffffff0d;color:#e2e8f0;padding:10px 12px;border-radius:999px;cursor:pointer}.composer{padding:20px 32px;border-top:1px solid #ffffff12;display:flex;gap:12px}input{flex:1;border:1px solid #334155;background:#020617;color:white;border-radius:18px;padding:16px;font-size:16px}.send{border:0;border-radius:18px;padding:0 22px;background:#22c55e;color:#061014;font-weight:900;cursor:pointer}@media(max-width:800px){.app{grid-template-columns:1fr}aside{display:none}.msg{max-width:100%}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside><h1>PraeChat AI</h1><p>A premium product-support chat interface demo with controlled local responses.</p><button class="new" onclick="resetChat()">New chat</button><div class="history" id="history"></div></aside>
+  <main><div class="top"><strong>Support Workspace</strong><span class="badge">Browser Demo</span></div><section class="chat" id="chat"><div class="msg bot">Welcome. Choose a product-support prompt to preview the assistant experience.</div><div class="chips"><button class="chip" onclick="ask('Show onboarding help')">Onboarding help</button><button class="chip" onclick="ask('Show pricing help')">Pricing help</button><button class="chip" onclick="ask('Show setup checklist')">Setup checklist</button></div></section><div class="composer"><input id="input" placeholder="Type a product-support question..." onkeydown="if(event.key==='Enter') send()"/><button class="send" onclick="send()">Send</button></div></main>
+</div>
+<script>
+const chat=document.getElementById('chat'),input=document.getElementById('input'),history=document.getElementById('history');
+function add(text,type='bot'){const div=document.createElement('div');div.className='msg '+type;div.textContent=text;chat.appendChild(div);}
+function reply(q){const lower=q.toLowerCase();if(lower.includes('onboarding'))return 'Onboarding flow: create workspace, invite team members, connect data source, review dashboard, then launch.';if(lower.includes('pricing'))return 'Pricing summary: Starter for small teams, Pro for automation, Enterprise for advanced controls and reporting.';if(lower.includes('setup'))return 'Setup checklist: define goal, add sample data, customize brand colors, test the chat flow, and publish.';return 'Thanks. This demo returns controlled product-support answers for common customer questions.';}
+function send(){const q=input.value.trim();if(!q)return;add(q,'user');input.value='';setTimeout(()=>add(reply(q),'bot'),200);const h=document.createElement('div');h.textContent=q.slice(0,42);history.prepend(h)}
+function ask(q){input.value=q;send()}function resetChat(){chat.innerHTML='<div class="msg bot">Fresh support chat opened.</div>';history.innerHTML=''}
+</script>
+</body>
+</html>
